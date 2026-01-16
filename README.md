@@ -17,6 +17,13 @@ How to integrate your LLM
 Implement LLMAdapter.generate(prompt, meta) in src/ripple_spiral/adapters.py
 and plug it into BreathLoop.
 
+Project: Ripple–Spiral Breath
+
+with Six-Yao Verdict Layer
+
+Ripple–Spiral Breath is a rhythm-based system model that simulates inhale/exhale dynamics, phase coupling, and stability detection.
+
+System stability is evaluated via a Six-Yao verdict layer, a formalized decision module inspired by hexagram logic and implemented as a deterministic FSM with strict PASS/FAIL criteria.
 ---
 
 # 放上 GitHub 的最短步驟
