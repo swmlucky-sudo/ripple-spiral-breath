@@ -1,0 +1,42 @@
+stateDiagram-v2
+  [*] --> STABLE
+
+  state "STABLE\n(all PASS)" as STABLE
+  state "DEGRADED\n(soft FAIL)" as DEGRADED
+  state "VIOLATION\n(hard FAIL)" as VIOLATION
+  state "UNKNOWN\n(not verifiable)" as UNKNOWN
+
+  STABLE --> DEGRADED: any_soft_fail\n(Yao5 or Yao6 = FAIL)
+  STABLE --> VIOLATION: any_hard_fail\n(C1–C4 FAIL)
+  STABLE --> UNKNOWN: not_verifiable
+
+  DEGRADED --> STABLE: all_pass
+  DEGRADED --> VIOLATION: any_hard_fail
+  DEGRADED --> UNKNOWN: not_verifiable
+
+  VIOLATION --> STABLE: all_pass\n(after recovery)
+  VIOLATION --> UNKNOWN: not_verifiable
+
+  UNKNOWN --> STABLE: all_pass\n(telemetry restored)
+  UNKNOWN --> VIOLATION: any_hard_fail
+
+  note right of STABLE
+    Output policy: log only
+    Notification: NO
+  end note
+
+  note right of DEGRADED
+    Output policy: log only
+    Notification: NO (default)
+    Optional: notify if persistent
+  end note
+
+  note right of VIOLATION
+    Output policy: notify
+    Include deltas + artifacts
+  end note
+
+  note right of UNKNOWN
+    Fail-safe: notify
+    Reason: cannot assert safety
+  end note
